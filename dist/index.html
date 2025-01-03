@@ -3,24 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>Hello wasm-pack!</title>
-  <link rel="modulepreload" href="/chuck-wallet-df19439d66140d7d.js" crossorigin=anonymous integrity="sha384-1U3XjF9hfPuJYFjwzNmwE4nC+0uURAH4/Oyt9NKyD8kbjw8LJcwp1akAHfuTYK0Q"><link rel="preload" href="/chuck-wallet-df19439d66140d7d_bg.wasm" crossorigin=anonymous integrity="sha384-lIIkC8s8SCXYUyncDLT529eq1KNt2t7RIPx8ZNPWkiz1Khd0ZfTRozbmkR54/LIo" as="fetch" type="application/wasm"></head>
     <link
         rel="preload"
-        href="./chuck-wallet-df19439d66140d7d_bg.wasm"
+        href='{{ TRUNK_WASM_BG }}'
         as="fetch"
         type="application/wasm"
         crossorigin=""
     />
-    <link rel="modulepreload" href="./chuck-wallet-df19439d66140d7d.js"/>
+    <link rel="modulepreload" href='{{ TRUNK_WASM_JS }}'/>
     <script type="module">
-
-      alert("test");
 
       //THIS IS NECESSARY
       window.addEventListener("TrunkApplicationStarted", (event) => {
           const wasm = event.detail.wasm; // Access the WASM module
           const nonce = wasm.get_nonce(); // Call the function
-          console.log("Result from WASM:", nonce);
+          document.getElementById("nonce").innerText = "0x" + nonce.toString(16);
           alert("hello");
       });
       </script>
@@ -58,10 +55,10 @@
         <p>Your wallet address: <b id="wallet_addr">0xf67818e7d8a65f7d</b></p>
         <p>Balance: <b id="balance"></b></p>
         <script src="./bootstrap.js"></script>
-    
-<script type="module" nonce="hgtLYscVhc3PUHkrPSG4Dw==">
-import init, * as bindings from '/chuck-wallet-df19439d66140d7d.js';
-const wasm = await init({ module_or_path: '/chuck-wallet-df19439d66140d7d_bg.wasm' });
+
+<script type="module" nonce="cqKFdA8ZP86czgYJZyYqPQ==">
+import init, * as bindings from '/chuck-wallet-ea5333b8b9a2c165.js';
+const wasm = await init({ module_or_path: '/chuck-wallet-ea5333b8b9a2c165_bg.wasm' });
 
 
 window.wasmBindings = bindings;
