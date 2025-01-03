@@ -13,18 +13,17 @@
     />
     <link rel="modulepreload" href="./chuck-wallet-df19439d66140d7d.js"/>
     <script type="module">
-    alert("test");
-        import init, { get_nonce } from "./chuck-wallet-df19439d66140d7d.js";
 
-        async function run() {
-            await init("./chuck-wallet-df19439d66140d7d_bg.wasm"); // Initialize WASM
-            const result = get_nonce(); // Call the function
-            console.log("Result from WASM:", result);
-            alert("hello");
-        }
+      alert("test");
 
-        run();
-        </script>
+      //THIS IS NECESSARY
+      window.addEventListener("TrunkApplicationStarted", (event) => {
+          const wasm = event.detail.wasm; // Access the WASM module
+          const nonce = wasm.get_nonce(); // Call the function
+          console.log("Result from WASM:", nonce);
+          alert("hello");
+      });
+      </script>
         <body>
         <div id="top">
             <h1 style="font-size: 3vw">Chuck Coin</h1>
@@ -60,7 +59,7 @@
         <p>Balance: <b id="balance"></b></p>
         <script src="./bootstrap.js"></script>
     
-<script type="module" nonce="TTNw1GeKIpS+vE/dRfbPZA==">
+<script type="module" nonce="hgtLYscVhc3PUHkrPSG4Dw==">
 import init, * as bindings from '/chuck-wallet-df19439d66140d7d.js';
 const wasm = await init({ module_or_path: '/chuck-wallet-df19439d66140d7d_bg.wasm' });
 
