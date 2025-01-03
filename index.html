@@ -18,11 +18,40 @@
       //THIS IS NECESSARY
       window.addEventListener("TrunkApplicationStarted", (event) => {
           const wasm = event.detail.wasm; // Access the WASM module
-          const nonce = wasm.get_nonce(); // Call the function
-          document.getElementById("nonce").innerText = "0x" + nonce.toString(16);
+          //const nonce = wasm.get_nonce(); // Call the function
+          //document.getElementById("nonce").innerText = "0x" + nonce.toString(16);
           //alert("hello");
+          var privInput = document.getElementById("privkey");
+
+          var prevInput = "";
+          privInput.addEventListener("blur", (event) => {
+
+            const input = event.target.value;
+            if (input == prevInput) {
+              return;
+            }
+
+            prevInput = input;
+            if (input) {
+              var bal = wasm.get_balance(input);
+              var addr = wasm.get_addr()
+            }
+            document.getElementById("balance").textContent = "Balance: "+bal;
+            document.getElementById
+          });
+
+          document.getElementById("sendbtn").addEventListener("click", (event) => {
+            var amt = document.getElementById("sendamt").value;
+            if (amt > 0) {
+              wasm.spend(amt);
+            }
+          });
       });
+
       </script>
+
+
+
         <body>
         <div id="top">
             <h1 style="font-size: 3vw">Chuck Coin</h1>
@@ -47,15 +76,16 @@
                 min="0"
                 max="1000000"
                 class="no-spinner"
+                id = "sendamt"
                 name="test"
             />
         </label>
 
-        <button>Send</button>
+        <button id = "sendbtn">Send</button>
         <br/>
         <br/>
         <p>Your wallet address: <b id="wallet_addr">0xf67818e7d8a65f7d</b></p>
-        <p>Balance: <b id="balance"></b></p>
+        <p id="balance">Balance:</p>
         <script src="./bootstrap.js"></script>
     </body>
 </html>
