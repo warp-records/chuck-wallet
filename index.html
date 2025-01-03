@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello wasm-pack!</title>
+  </head>
+    <link
+        rel="preload"
+        href="./chuck-wallet-df19439d66140d7d_bg.wasm"
+        as="fetch"
+        type="application/wasm"
+        crossorigin=""
+    />
+    <link rel="modulepreload" href="./chuck-wallet-df19439d66140d7d.js"/>
+    <script type="module">
+    alert("test");
+        import init, { get_nonce } from "./chuck-wallet-df19439d66140d7d.js";
+
+        async function run() {
+            await init("./chuck-wallet-df19439d66140d7d_bg.wasm"); // Initialize WASM
+            const result = get_nonce(); // Call the function
+            console.log("Result from WASM:", result);
+            alert("hello");
+        }
+
+        run();
+        </script>
+        <body>
+        <div id="top">
+            <h1 style="font-size: 3vw">Chuck Coin</h1>
+            <img
+                src="https://www.chuckecheese.com/wp-content/uploads/fall2024/rocketship.png"
+                width="100px"
+            />
+        </div>
+        <h3>Send coins:</h3>
+        <label>
+            Paste your private key:
+            <input id="privkey" type="password" />
+        </label>
+        <br />
+        <br />
+        <label>
+            Recipient address
+            <input
+                type="number"
+                inputmode="numeric"
+                value="0"
+                min="0"
+                max="1000000"
+                class="no-spinner"
+                name="test"
+            />
+        </label>
+
+        <button>Send</button>
+        <br/>
+        <br/>
+        <p>Your wallet address: <b id="wallet_addr">0xf67818e7d8a65f7d</b></p>
+        <p>Balance: <b id="balance"></b></p>
+        <script src="./bootstrap.js"></script>
+    </body>
+</html>
+
+<!-- include directly for now -->
+<style>
+    body {
+        font-family: system-ui;
+        background: #f06d06;
+        color: white;
+        text-align: center;
+    }
+
+    /*
+@font-face {
+  font-family: "summer-blaster";
+    src: url("https://www.chuckecheese.com/wp-content/uploads/fall2024/summer-blaster.woff2") format("woff2"),
+       url("https://www.chuckecheese.com/wp-content/uploads/fall2024/summer-blaster.woff") format("woff");
+}*/
+
+    #top {
+        display: flex;
+        font-family: "summer-blaster", sans-serif;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Hide the spinner arrows in Chrome, Safari, Edge */
+    .no-spinner::-webkit-inner-spin-button,
+    .no-spinner::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Hide the spinner arrows in Firefox */
+
+    .no-spinner {
+        -moz-appearance: textfield;
+    }
+</style>
+
+</html>

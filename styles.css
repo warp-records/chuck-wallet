@@ -1,0 +1,33 @@
+body {
+  font-family: system-ui;
+  background: #f06d06;
+  color: white;
+  text-align: center;
+}
+
+/*
+@font-face {
+  font-family: "summer-blaster";
+    src: url("https://www.chuckecheese.com/wp-content/uploads/fall2024/summer-blaster.woff2") format("woff2"),
+       url("https://www.chuckecheese.com/wp-content/uploads/fall2024/summer-blaster.woff") format("woff");
+}*/
+
+#top {
+  display: flex;
+  font-family: "summer-blaster", sans-serif;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hide the spinner arrows in Chrome, Safari, Edge */
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide the spinner arrows in Firefox */
+
+.no-spinner {
+    -moz-appearance: textfield;
+}
