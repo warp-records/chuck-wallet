@@ -1,6 +1,7 @@
 use coin::block::*;
 use coin::user::*;
 use hex;
+use std::os;
 use std::{iter::Once, sync::Mutex};
 use wasm_bindgen::prelude::*;
 use web_sys::window;
@@ -10,8 +11,13 @@ extern "C" {
     pub fn alert(s: &str);
 }
 
+#[wasm_bindgen]
+pub fn greet(name: &str) {
+    alert(&format!("Hello, {}!", name));
+}
+
 static STATE: Mutex<Option<State>> = Mutex::new(None);
-static USER: Mutex<Option<State>> = Mutex::new(None);
+static USER: Mutex<Option<User>> = Mutex::new(None);
 
 fn main() {
     console_error_panic_hook::set_once();
@@ -33,8 +39,8 @@ fn main() {
 
 #[wasm_bindgen]
 pub fn get_nonce() -> u64 {
-    let mut state = STATE.lock().unwrap(); // Lock the Mutex to access the state
-    let state = state.as_mut().unwrap(); // Get a mutable reference to the state
+    let mut state = STATE.lock().unwrap();
+    let state = state.as_mut().unwrap();
 
     let nonce = state.blocks[0].mine(); // Mine the nonce
     state.blocks[0].nonce = nonce; // Update the nonce in the state
@@ -43,44 +49,52 @@ pub fn get_nonce() -> u64 {
 }
 
 #[wasm_bindgen]
-pub fn get_balance() -> u64 {
-    let window = window().unwrap();
-    let document = window.document().unwrap();
+pub fn set_user(priv_key: &str) -> Result<(), JsValue> {
+    let mut user = User::try_from_priv(priv_key).map_err(|_| JsValue::null())?;
 
-    let input = document
-        .get_element_by_id("privkey")
-        .expect("should find input element");
+    let mut user_guard = USER.lock().unwrap();
+    *user_guard = Some(user);
 
-    let input_element = input.dyn_into::<web_sys::HtmlInputElement>().unwrap();
-
-    let priv_key = input_element.value();
-    let pub_key = User::from_priv(priv_key.as_str()).verifying.into();
-    let mut state = STATE.lock().unwrap();
-    let state = state.as_mut().unwrap();
-
-    state.get_balance(pub_key)
+    Ok(())
 }
 
 #[wasm_bindgen]
-pub fn spend(amt: u64) {
+pub fn get_balance() -> Result<u64, JsValue> {
+
+    let mut user = USER.lock().unwrap();
+    let user = user.as_ref().ok_or(JsValue::null())?;
+    let pub_key = user.verifying.into();
+
     let mut state = STATE.lock().unwrap();
     let state = state.as_mut().unwrap();
 
-    let window = window().unwrap();
-    let document = window.document().unwrap();
-    let input = document
-        .get_element_by_id("privkey")
-        .expect("should find input element");
+    Ok(state.get_balance(pub_key))
+}
 
-    let input_element = input.dyn_into::<web_sys::HtmlInputElement>().unwrap();
+#[wasm_bindgen]
+pub fn get_pub_key() -> Result<String, JsValue> {
+    let user = USER.lock().unwrap();
+    let user = user.as_ref().ok_or(JsValue::null())?;
+    Ok(hex::encode_upper(user.verifying.to_encoded_point(false)))
+}
 
-    let priv_key = input_element.value();
-    let signing = User::from_priv(priv_key.as_str()).signing;
+#[wasm_bindgen]
+pub fn spend(priv_key: &str, amt: u64) -> Result<(), JsValue> {
+
+    let signing = User::try_from_priv(priv_key)
+        .map_err(|_| JsValue::null())?
+        .signing;
+
+    let mut state = STATE.lock().unwrap();
+    let state = state.as_mut().unwrap();
 
     let rand_user = User::random();
     state.blocks[0].transact(&mut state.utxo_set, &signing, &rand_user.verifying, amt);
+
+    Ok(())
 }
 
+//#[wasm_bindgen]
 /*
 #[wasm_bindgen]
 pub fn spend(amt: u64) {

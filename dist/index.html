@@ -2,57 +2,14 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello wasm-pack!</title>
-  <link rel="modulepreload" href="/chuck-wallet-5c1125a7191c4c57.js" crossorigin=anonymous integrity="sha384-2Gro0hunFjEdHSUgMI68EVX13DMR3nl5LN12I7Liyjjwk8TpPMNIobyDDbn1B71b"><link rel="preload" href="/chuck-wallet-5c1125a7191c4c57_bg.wasm" crossorigin=anonymous integrity="sha384-mzEcBTA5HikUfWHgCF+tz0fhzCgbx7avKqleRt3sJlpb4km4PqWrnVS+6FBV1b2i" as="fetch" type="application/wasm"></head>
-    <link
-        rel="preload"
-        href="./chuck-wallet-df19439d66140d7d_bg.wasm"
-        as="fetch"
-        type="application/wasm"
-        crossorigin=""
-    />
-    <link rel="modulepreload" href="./chuck-wallet-df19439d66140d7d.js"/>
-    <script type="module">
-
-
-      //THIS IS NECESSARY
-      window.addEventListener("TrunkApplicationStarted", (event) => {
-          const wasm = event.detail.wasm; // Access the WASM module
-          //const nonce = wasm.get_nonce(); // Call the function
-          //document.getElementById("nonce").innerText = "0x" + nonce.toString(16);
-          //alert("hello");
-          var privInput = document.getElementById("privkey");
-
-          var prevInput = "";
-          privInput.addEventListener("blur", (event) => {
-
-            const input = event.target.value;
-            if (input == prevInput) {
-              return;
-            }
-
-            prevInput = input;
-            if (input) {
-              var bal = wasm.get_balance(input);
-              var addr = wasm.get_addr()
-            }
-            document.getElementById("balance").textContent = "Balance: "+bal;
-            document.getElementById
-          });
-
-          document.getElementById("sendbtn").addEventListener("click", (event) => {
-            var amt = document.getElementById("sendamt").value;
-            if (amt > 0) {
-              wasm.spend(amt);
-            }
-          });
-      });
-
-      </script>
-
-
-
+    <title>Chuck Wallet</title>
+  <link rel="modulepreload" href="/chuck-wallet-e26e4afb9ee8c672.js" crossorigin=anonymous integrity="sha384-3EEoEWN5V4Vc8T55dlNhdeN83uvx4oCvhMrhEnMSHbW5Qx+D4xfKqSptSNSObjUo"><link rel="preload" href="/chuck-wallet-e26e4afb9ee8c672_bg.wasm" crossorigin=anonymous integrity="sha384-DbQ7Zy8DPAu2U14YwKE0fMw1HTmfluQk7C6jhKDSccAqZoSXPgLwqf6uHfGh/KWb" as="fetch" type="application/wasm"></head>
+    <script src="./bootstrap.js"></script>
+    <script src="/index-4a5e20cd9e72eecc.js" integrity="sha384&#x2D;R8UryiBkazAKL3mNfu3LYuDrpTApzECkIHbY3OMnGXp5EJUOTy1ecf5Vn6fHjMSC" type="module"></script>
+    <link rel="stylesheet" href="/styles-594052cf5f885095.css" integrity="sha384&#x2D;1wufRlx7wqhFZXhQ1gnpmbnB1OMbq9pfJcwvYb0SvZG15tWhengFxKo2sUQtGZNS"/>
+    
         <body>
+
         <div id="top">
             <h1 style="font-size: 3vw">Chuck Coin</h1>
             <img
@@ -60,13 +17,20 @@
                 width="100px"
             />
         </div>
-        <h3>Send coins:</h3>
-        <label>
+        <h2 id="loading">
+            Loading blockchain from server...
+            <img src="assets/spinner.gif" style="height: 1em; vertical-align: middle;">
+          </header>
+        </h2>
+
+        <div id = "content">
+        <label class = "main">
             Paste your private key:
             <input id="privkey" type="password" />
         </label>
-        <br />
-        <br />
+        <br>
+        <br>
+        <h3>Send coins:</h3>
         <label>
             Recipient address
             <input
@@ -83,14 +47,14 @@
 
         <button id = "sendbtn">Send</button>
         <br/>
-        <br/>
-        <p>Your wallet address: <b id="wallet_addr">0xf67818e7d8a65f7d</b></p>
+        <p>Your wallet address: <b id="wallet_addr"></b></p>
         <p id="balance">Balance:</p>
-        <script src="./bootstrap.js"></script>
+
+        </div>
     
-<script type="module" nonce="B/nVJg6bafXJ3xNt9O3I9g==">
-import init, * as bindings from '/chuck-wallet-5c1125a7191c4c57.js';
-const wasm = await init({ module_or_path: '/chuck-wallet-5c1125a7191c4c57_bg.wasm' });
+<script type="module" nonce="j7dyttfIuz+3CJnvb2d3+w==">
+import init, * as bindings from '/chuck-wallet-e26e4afb9ee8c672.js';
+const wasm = await init({ module_or_path: '/chuck-wallet-e26e4afb9ee8c672_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -231,40 +195,3 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 </html>
 
 <!-- include directly for now -->
-<style>
-    body {
-        font-family: system-ui;
-        background: #f06d06;
-        color: white;
-        text-align: center;
-    }
-
-    /*
-@font-face {
-  font-family: "summer-blaster";
-    src: url("https://www.chuckecheese.com/wp-content/uploads/fall2024/summer-blaster.woff2") format("woff2"),
-       url("https://www.chuckecheese.com/wp-content/uploads/fall2024/summer-blaster.woff") format("woff");
-}*/
-
-    #top {
-        display: flex;
-        font-family: "summer-blaster", sans-serif;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Hide the spinner arrows in Chrome, Safari, Edge */
-    .no-spinner::-webkit-inner-spin-button,
-    .no-spinner::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    /* Hide the spinner arrows in Firefox */
-
-    .no-spinner {
-        -moz-appearance: textfield;
-    }
-</style>
-
-</html>
