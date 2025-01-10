@@ -35,3 +35,17 @@ src: url("https://www.chuckecheese.com/wp-content/uploads/fall2024/summer-blaste
 .no-spinner {
     -moz-appearance: textfield;
 }
+
+#rocket {
+    position: relative;
+    animation: hover 2s infinite ease-in-out;
+}
+
+@keyframes hover {
+    0%, 100% {
+        transform: translateY(10px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}

@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title>Chuck Wallet</title>
-  <link rel="modulepreload" href="/chuck-wallet-e26e4afb9ee8c672.js" crossorigin=anonymous integrity="sha384-3EEoEWN5V4Vc8T55dlNhdeN83uvx4oCvhMrhEnMSHbW5Qx+D4xfKqSptSNSObjUo"><link rel="preload" href="/chuck-wallet-e26e4afb9ee8c672_bg.wasm" crossorigin=anonymous integrity="sha384-DbQ7Zy8DPAu2U14YwKE0fMw1HTmfluQk7C6jhKDSccAqZoSXPgLwqf6uHfGh/KWb" as="fetch" type="application/wasm"></head>
+  <link rel="modulepreload" href="/chuck-wallet-87e00781dc193616.js" crossorigin=anonymous integrity="sha384-DAaHeyYu4MW0LgAaEZreQ1H5hIoXcdhliYEnQnLR9yrF15IRh7eHZHQoFmnrANgO"><link rel="preload" href="/chuck-wallet-87e00781dc193616_bg.wasm" crossorigin=anonymous integrity="sha384-mhMf66xKJOIWL+cEZB3OFPqxBfS4UmDL0t/B/SSqETHDgpq8/TnJHpI7gBMV8+Yy" as="fetch" type="application/wasm"></head>
     <script src="./bootstrap.js"></script>
-    <script src="/index-4a5e20cd9e72eecc.js" integrity="sha384&#x2D;R8UryiBkazAKL3mNfu3LYuDrpTApzECkIHbY3OMnGXp5EJUOTy1ecf5Vn6fHjMSC" type="module"></script>
-    <link rel="stylesheet" href="/styles-594052cf5f885095.css" integrity="sha384&#x2D;1wufRlx7wqhFZXhQ1gnpmbnB1OMbq9pfJcwvYb0SvZG15tWhengFxKo2sUQtGZNS"/>
+    <script src="/index-51e338f72d02a1f0.js" integrity="sha384&#x2D;FEw1MPyY5EycgeXCogaXAbxbbdyTGAcZ6LC3j6rjt7EPzjhZojZgNMbaSyRJOzUL" type="module"></script>
+    <link rel="stylesheet" href="/styles-ba240cf1401462f5.css" integrity="sha384&#x2D;u01a&#x2F;1g65XAMAB44FisLmmUsZVgp073pMEBHDAdAcFUTIESyA0JZPmC5JlpHo956"/>
     
         <body>
 
         <div id="top">
             <h1 style="font-size: 3vw">Chuck Coin</h1>
-            <img
+            <img id = "rocket"
                 src="https://www.chuckecheese.com/wp-content/uploads/fall2024/rocketship.png"
                 width="100px"
             />
@@ -20,19 +20,32 @@
         <h2 id="loading">
             Loading blockchain from server...
             <img src="assets/spinner.gif" style="height: 1em; vertical-align: middle;">
-          </header>
         </h2>
 
-        <div id = "content">
-        <label class = "main">
-            Paste your private key:
+        <div id = "content" style = "display: none">
+        <label id = "login">
+            <h3 id = "login_msg">Login with private key:</h3>
             <input id="privkey" type="password" />
         </label>
         <br>
         <br>
-        <h3>Send coins:</h3>
+        <h2>Send coins:</h2>
         <label>
-            Recipient address
+            <h3>Recipient address</h3>
+            <input
+                type="number"
+                inputmode="numeric"
+                value="0"
+                min="0"
+                max="1000000"
+                class="no-spinner"
+                id = "sendamt"
+                name="test"
+            />
+        </label>
+        <br>
+        <label>
+            <h3>Amount</h3>
             <input
                 type="number"
                 inputmode="numeric"
@@ -47,14 +60,15 @@
 
         <button id = "sendbtn">Send</button>
         <br/>
-        <p>Your wallet address: <b id="wallet_addr"></b></p>
+        <p>Your wallet address:</p>
+        <b id="wallet_addr"></b>
         <p id="balance">Balance:</p>
 
         </div>
     
-<script type="module" nonce="j7dyttfIuz+3CJnvb2d3+w==">
-import init, * as bindings from '/chuck-wallet-e26e4afb9ee8c672.js';
-const wasm = await init({ module_or_path: '/chuck-wallet-e26e4afb9ee8c672_bg.wasm' });
+<script type="module" nonce="qDofnlyAhLv4iIxHknW5Qw==">
+import init, * as bindings from '/chuck-wallet-87e00781dc193616.js';
+const wasm = await init({ module_or_path: '/chuck-wallet-87e00781dc193616_bg.wasm' });
 
 
 window.wasmBindings = bindings;

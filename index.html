@@ -12,7 +12,7 @@
 
         <div id="top">
             <h1 style="font-size: 3vw">Chuck Coin</h1>
-            <img
+            <img id = "rocket"
                 src="https://www.chuckecheese.com/wp-content/uploads/fall2024/rocketship.png"
                 width="100px"
             />
@@ -20,19 +20,32 @@
         <h2 id="loading">
             Loading blockchain from server...
             <img src="assets/spinner.gif" style="height: 1em; vertical-align: middle;">
-          </header>
         </h2>
 
-        <div id = "content">
-        <label class = "main">
-            Paste your private key:
+        <div id = "content" style = "display: none">
+        <label id = "login">
+            <h3 id = "login_msg">Login with private key:</h3>
             <input id="privkey" type="password" />
         </label>
         <br>
         <br>
-        <h3>Send coins:</h3>
+        <h2>Send coins:</h2>
         <label>
-            Recipient address
+            <h3>Recipient address</h3>
+            <input
+                type="number"
+                inputmode="numeric"
+                value="0"
+                min="0"
+                max="1000000"
+                class="no-spinner"
+                id = "sendamt"
+                name="test"
+            />
+        </label>
+        <br>
+        <label>
+            <h3>Amount</h3>
             <input
                 type="number"
                 inputmode="numeric"
@@ -47,7 +60,8 @@
 
         <button id = "sendbtn">Send</button>
         <br/>
-        <p>Your wallet address: <b id="wallet_addr"></b></p>
+        <p>Your wallet address:</p>
+        <b id="wallet_addr"></b>
         <p id="balance">Balance:</p>
 
         </div>
