@@ -36,8 +36,8 @@ static USER: Mutex<Option<User>> = Mutex::new(None);
 fn main() {
     console_error_panic_hook::set_once();
 
-    let mut state = State::with_genesis_block();
-    let mut first = &mut state.blocks[0];
+    //let mut state = State::with_genesis_block();
+    //let mut first = &mut state.blocks[0];
 
     //alert("Hello world!");
     let document = window()
@@ -87,22 +87,37 @@ pub fn get_pub_key() -> Result<String, JsError> {
     let user = user.as_ref().ok_or(JsError::new(""))?;
     Ok(hex::encode_upper(user.verifying.to_encoded_point(false)))
 }
-/*
-#[wasm_bindgen]
-pub fn spend(priv_key: &str, amt: u64) -> Result<(), JsError> {
 
-    let signing = User::try_from_priv(priv_key)
-        .map_err(|_| JsError::new(""))?
-        .signing;
+#[wasm_bindgen]
+pub async fn spend(pub_key: &str, amt: u64) -> Result<(), JsError> {
+
+    let spender = USER.lock().unwrap();
+    let spender = spender.as_ref().unwrap();//ok_or(JsError::new("No user set"))?;
+    let spender_priv = &spender.signing;
+
+    let recipient_pub = try_public_from_str(pub_key)
+        .map_err(|_| JsError::new("Invalid pub key"))?;
 
     let mut state = STATE.lock().unwrap();
 
-    let rand_user = User::random();
-    state.blocks[0].transact(&mut state.utxo_set, &signing, &rand_user.verifying, amt);
+    let mut last_block = state.blocks.last().unwrap().clone();
+    let new_tx = last_block.transact(&mut state.utxo_set, &spender_priv, &recipient_pub.into(), amt)
+        .map_err(|_| JsError::new("Invalid transaction"))?;
+
+
+    //upload to server
+    let (_ws_meta, mut ws_stream) = WsMeta::connect(&format!("ws://{SERVER_IP}:{PORT}"), None)
+        .await
+        .map_err(|_| JsError::new("Failed to connect to WebSocket"))?;
+
+    let serialized = bincode::serialize(&ClientFrame::TxFrame(vec![new_tx.clone()])).unwrap();
+    ws_stream.send(WsMessage::Binary(serialized))
+        .await
+        .map_err(|_| JsError::new("Failed to send transaction to server"))?;
+
 
     Ok(())
 }
- */
 
 
 //Because error handling in javascript is almost as catastrophic
@@ -150,6 +165,8 @@ pub async fn fetch_blockchain() -> Result<(), JsError> {
     // Update the blockchain in the state
     let mut state = STATE.lock().unwrap();
     state.blocks = blockchain;
+
+    state.verify_all_and_update().map_err(|_| JsError::new("Failed to verify blockchain"))?;
 
     Ok(())
 }

@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8">
     <title>Chuck Wallet</title>
-  <link rel="modulepreload" href="/chuck-wallet-87e00781dc193616.js" crossorigin=anonymous integrity="sha384-DAaHeyYu4MW0LgAaEZreQ1H5hIoXcdhliYEnQnLR9yrF15IRh7eHZHQoFmnrANgO"><link rel="preload" href="/chuck-wallet-87e00781dc193616_bg.wasm" crossorigin=anonymous integrity="sha384-mhMf66xKJOIWL+cEZB3OFPqxBfS4UmDL0t/B/SSqETHDgpq8/TnJHpI7gBMV8+Yy" as="fetch" type="application/wasm"></head>
+  <link rel="modulepreload" href="/chuck-wallet-90f528e39b9f7c19.js" crossorigin=anonymous integrity="sha384-eHWtNXXSm7uO9tvq/60dkteO7qRYYb4dFGDjU+BZ5BtWVOfYrOFJsSv5fFVQBexk"><link rel="preload" href="/chuck-wallet-90f528e39b9f7c19_bg.wasm" crossorigin=anonymous integrity="sha384-vynq6SX+YE7UrI3NZDYtaik21KC5xlEE97yipfElpX+zk3bIRidT6Vt5OyiFCiiM" as="fetch" type="application/wasm"></head>
     <script src="./bootstrap.js"></script>
-    <script src="/index-51e338f72d02a1f0.js" integrity="sha384&#x2D;FEw1MPyY5EycgeXCogaXAbxbbdyTGAcZ6LC3j6rjt7EPzjhZojZgNMbaSyRJOzUL" type="module"></script>
-    <link rel="stylesheet" href="/styles-ba240cf1401462f5.css" integrity="sha384&#x2D;u01a&#x2F;1g65XAMAB44FisLmmUsZVgp073pMEBHDAdAcFUTIESyA0JZPmC5JlpHo956"/>
+    <script src="/index-c707aa450e270d1d.js" integrity="sha384&#x2D;iwjD&#x2B;mhqYySwYIheARSnonnF5BReen&#x2B;3lYGicIIr6Z2zmKuFvu5W3f8T0zdRzE0m" type="module"></script>
+    <link rel="stylesheet" href="/styles-f508fbc7a7a742d4.css" integrity="sha384&#x2D;ZTP2I5rzlXeRb1gYmcEm0YFOT0iDVihARFQOfv0JIYFeqxGdfh9emFAl0b9xTkbb"/>
     
         <body>
 
         <div id="top">
             <h1 style="font-size: 3vw">Chuck Coin</h1>
             <img id = "rocket"
-                src="https://www.chuckecheese.com/wp-content/uploads/fall2024/rocketship.png"
+                src="assets/rocketship.png"
                 width="100px"
             />
         </div>
@@ -29,18 +29,12 @@
         </label>
         <br>
         <br>
+        <div id = "main" style = "display: none">
         <h2>Send coins:</h2>
         <label>
             <h3>Recipient address</h3>
             <input
-                type="number"
-                inputmode="numeric"
-                value="0"
-                min="0"
-                max="1000000"
-                class="no-spinner"
-                id = "sendamt"
-                name="test"
+                id = "recipient"
             />
         </label>
         <br>
@@ -63,12 +57,12 @@
         <p>Your wallet address:</p>
         <b id="wallet_addr"></b>
         <p id="balance">Balance:</p>
-
+        </div>
         </div>
     
-<script type="module" nonce="qDofnlyAhLv4iIxHknW5Qw==">
-import init, * as bindings from '/chuck-wallet-87e00781dc193616.js';
-const wasm = await init({ module_or_path: '/chuck-wallet-87e00781dc193616_bg.wasm' });
+<script type="module" nonce="sfVmYGO80igMQ2/GSdfMKA==">
+import init, * as bindings from '/chuck-wallet-90f528e39b9f7c19.js';
+const wasm = await init({ module_or_path: '/chuck-wallet-90f528e39b9f7c19_bg.wasm' });
 
 
 window.wasmBindings = bindings;

@@ -13,7 +13,7 @@
         <div id="top">
             <h1 style="font-size: 3vw">Chuck Coin</h1>
             <img id = "rocket"
-                src="https://www.chuckecheese.com/wp-content/uploads/fall2024/rocketship.png"
+                src="assets/rocketship.png"
                 width="100px"
             />
         </div>
@@ -29,18 +29,12 @@
         </label>
         <br>
         <br>
+        <div id = "main" style = "display: none">
         <h2>Send coins:</h2>
         <label>
             <h3>Recipient address</h3>
             <input
-                type="number"
-                inputmode="numeric"
-                value="0"
-                min="0"
-                max="1000000"
-                class="no-spinner"
-                id = "sendamt"
-                name="test"
+                id = "recipient"
             />
         </label>
         <br>
@@ -63,7 +57,7 @@
         <p>Your wallet address:</p>
         <b id="wallet_addr"></b>
         <p id="balance">Balance:</p>
-
+        </div>
         </div>
     </body>
 </html>
