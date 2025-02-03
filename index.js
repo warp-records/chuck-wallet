@@ -16,11 +16,25 @@ window.addEventListener("TrunkApplicationStarted", async (event) => {
       document.getElementById("loading").style.transition = "opacity 1s";
       document.getElementById("loading").style.opacity = "0";
       //setTimeout(() => {
-     //   document.getElementById("loading").remove();
-     // }, 1000); // Remove after 1 second (duration of the fade-out)
+      //   document.getElementById("loading").remove();
+      // }, 1000); // Remove after 1 second (duration of the fade-out)
     }, 2000); // Start fade-out after 1 second
   } catch (error) {
-    document.getElementById("loading").innerHTML = "Failed to load blockchain &#10060;";
+    var errMsg = "";
+
+    switch (error.message) {
+      case "CantConnect":
+        errMsg = "Can't connect to server";
+        document.getElementById("server-down").style = "";
+        break;
+      case "InvalidBlockchain":
+        errMsg = "Invalid blockchain";
+        break;
+      default:
+        errMsg = "Network error";
+    }
+
+    document.getElementById("loading").innerHTML = errMsg + " &#10060;";
   }
 
   document.getElementById("privkey").addEventListener("blur", (event) => {
@@ -32,7 +46,8 @@ window.addEventListener("TrunkApplicationStarted", async (event) => {
     try {
       wasm.set_user(input);
     } catch (error) {
-      document.getElementById("login_msg").innerHTML = "Invalid private key &#10060;";
+      document.getElementById("login_msg").innerHTML =
+        "Invalid private key &#10060;";
       document.getElementById("privkey").value = "";
       document.getElementById("top").className = "";
       document.getElementById("main").style = "display: none";

@@ -31,6 +31,7 @@ lazy_static! {
 }
 
 static USER: Mutex<Option<User>> = Mutex::new(None);
+static WS_STREAM: Mutex<Option<WsStream>> = Mutex::new(None);
 
 
 fn main() {
@@ -106,9 +107,19 @@ pub async fn spend(pub_key: &str, amt: u64) -> Result<(), JsError> {
 
 
     //upload to server
-    let (_ws_meta, mut ws_stream) = WsMeta::connect(&format!("ws://{SERVER_IP}:{PORT}"), None)
-        .await
-        .map_err(|_| JsError::new("Failed to connect to WebSocket"))?;
+    let mut guard = WS_STREAM.lock().unwrap();
+
+    let mut ws_stream = match &mut *guard {
+        Some(stream) => stream,
+        None => {
+            let (_, stream) = WsMeta::connect(&format!("ws://{SERVER_IP}:{PORT}"), None)
+                .await
+                .map_err(|_| JsError::new("Failed to connect to WebSocket"))?;
+            *guard = Some(stream);
+            guard.as_mut().unwrap()
+        }
+    };
+
 
     let serialized = bincode::serialize(&ClientFrame::TxFrame(vec![new_tx.clone()])).unwrap();
     ws_stream.send(WsMessage::Binary(serialized))
@@ -134,7 +145,7 @@ pub async fn fetch_blockchain() -> Result<(), JsError> {
     // Create a WebSocket connection using ws_stream_wasm
     let (_ws_meta, mut ws_stream) = WsMeta::connect(&format!("ws://{SERVER_IP}:{PORT}"), None)
         .await
-        .map_err(|_| JsError::new("Failed to connect to WebSocket"))?;
+        .map_err(|_| JsError::new("CantConnect"))?;
 
     // Serialize the ClientFrame using bincode
     let frame = ClientFrame::GetBlockchain;
@@ -166,7 +177,7 @@ pub async fn fetch_blockchain() -> Result<(), JsError> {
     let mut state = STATE.lock().unwrap();
     state.blocks = blockchain;
 
-    state.verify_all_and_update().map_err(|_| JsError::new("Failed to verify blockchain"))?;
+    state.verify_all_and_update().map_err(|_| JsError::new("InvalidBlockchain"))?;
 
     Ok(())
 }
