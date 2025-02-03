@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>Chuck Wallet</title>
-  </head>
+  <link rel="modulepreload" href="/chuck-wallet-f15723dec3aa5d8.js" crossorigin="anonymous" integrity="sha384-/9HV2aRrrVNFRGNvssEeISvZbWThoFuKi8hb9BEq/Ss2BYqPKsUjRo4WSE1jenw0"><link rel="preload" href="/chuck-wallet-f15723dec3aa5d8_bg.wasm" crossorigin="anonymous" integrity="sha384-f8DrOsvfVNgBHgSoxA4gqVUbb3bnnOIy51xK5HRRw+D5fRd3EjYlU01mADN8GcjI" as="fetch" type="application/wasm"></head>
     <script src="./bootstrap.js"></script>
-    <script src="index.js" data-trunk type="module"></script>
-    <link data-trunk rel="css" href="styles.css">
-    <link data-trunk rel="copy-dir" href="assets/">
+    <script src="/index-924e61c9c1d415b2.js" integrity="sha384&#x2D;dH6y&#x2B;tmtakYsgdYFra6f41m062NigCJHmWrIAdvoykbu3YBAxl&#x2F;BJt3G2cAfSWhw" type="module"></script>
+    <link rel="stylesheet" href="/styles-7959111592fa0b72.css" integrity="sha384&#x2D;AteEY23iaCodilo3HjwseDgUdKMsDBvHYmEqWGsQUjjqql0Zxv02zwovnmseqArZ"/>
+    
         <body>
 
         <div id="top">
@@ -66,7 +66,18 @@
         <p id="balance">Balance:</p>
         </div>
         </div>
-    </body>
+    
+<script type="module">
+import init, * as bindings from '/chuck-wallet-f15723dec3aa5d8.js';
+const wasm = await init({ module_or_path: '/chuck-wallet-f15723dec3aa5d8_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script></body>
 </html>
 
 <!-- include directly for now -->
